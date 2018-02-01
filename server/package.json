@@ -1,0 +1,55 @@
+{
+  "name": "currensy-courses-server",
+  "version": "1.0.0",
+  "description": "Server side",
+  "scripts": {
+    "start": "rimraf ./dist && babel -d ./dist ./src -s && node dist/main.js",
+    "dev": "nodemon babel ./src/server.js",
+    "lint:js": "eslint ./src"
+  },
+  "dependencies": {
+    "babel-cli": "^6.23.0",
+    "babel-core": "^6.23.1",
+    "babel-preset-env": "^1.1.11",
+    "body-parser": "^1.18.2",
+    "connect-mongo": "^2.0.1",
+    "crypto": "^1.0.1",
+    "dotenv": "^5.0.0",
+    "express": "^4.16.2",
+    "express-session": "^1.15.6",
+    "mongoose": "^5.0.3",
+    "rimraf": "^2.6.1"
+  },
+  "devDependencies": {
+    "babel-register": "^6.23.0",
+    "eslint": "^3.16.1",
+    "eslint-config-airbnb-base": "^11.1.0",
+    "eslint-config-airbnb-flow": "^1.0.2",
+    "eslint-config-prettier": "^1.4.1",
+    "eslint-plugin-import": "^2.2.0",
+    "nodemon": "^1.14.11"
+  },
+  "eslintConfig": {
+    "root": true,
+    "extends": [
+      "airbnb-base",
+      "prettier"
+    ],
+    "env": {
+      "node": true
+    }
+  },
+  "babel": {
+    "presets": [
+      "env",
+      {
+        "targets": {
+          "node": "current"
+        }
+      }
+    ]
+  },
+  "prettier": {
+    "printWidth": 100
+  }
+}

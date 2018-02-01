@@ -1,0 +1,16 @@
+{
+  "name": "currensy_courses",
+  "version": "1.0.0",
+  "description": "Currensy Courses",
+  "scripts": {
+    "init:server": "cd server && npm i",
+    "init:client": "cd client && yarn",
+    "init": "npm run init:server && npm run init:client",
+    "start:server": "cd server && npm start",
+    "start:client": "cd client && yarn start",
+    "start": "npm run start:server && npm run start:client"
+  },
+  "keywords": [],
+  "author": "Vofus",
+  "license": "ISC"
+}
