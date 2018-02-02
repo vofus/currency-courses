@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "description": "Server side",
   "scripts": {
-    "start": "rimraf ./dist && babel -d ./dist ./src -s && node dist/main.js",
+    "start": "rimraf ./dist && babel -d ./dist ./src -s && node dist/server.js",
     "dev": "nodemon babel ./src/server.js",
     "lint:js": "eslint ./src"
   },
   "dependencies": {
     "babel-cli": "^6.23.0",
     "babel-core": "^6.23.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.1.11",
     "body-parser": "^1.18.2",
     "connect-mongo": "^2.0.1",
@@ -41,12 +42,14 @@
   },
   "babel": {
     "presets": [
-      "env",
-      {
+      ["env", {
         "targets": {
           "node": "current"
         }
-      }
+      }]
+    ],
+    "plugins": [
+      ["transform-object-rest-spread", { "useBuiltIns": true }]
     ]
   },
   "prettier": {

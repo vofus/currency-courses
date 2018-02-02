@@ -7,8 +7,8 @@
     "init:client": "cd client && yarn",
     "init": "npm run init:server && npm run init:client",
     "start:server": "cd server && npm start",
-    "start:client": "cd client && yarn start",
-    "start": "npm run start:server && npm run start:client"
+    "build:client": "cd client && yarn build",
+    "start": "npm run build:client && npm run start:server"
   },
   "keywords": [],
   "author": "Vofus",
