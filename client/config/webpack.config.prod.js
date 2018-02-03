@@ -52,6 +52,7 @@ const styleLoaderConfig = {
 	loader: require.resolve('style-loader'),
 	options: {
 		hmr: false,
+		sourceMap: shouldUseSourceMap,
 	},
 };
 const cssLoaderConfig = {
@@ -59,7 +60,7 @@ const cssLoaderConfig = {
 	options: {
 		importLoaders: 1,
 		minimize: true,
-		// sourceMap: shouldUseSourceMap,
+		sourceMap: shouldUseSourceMap,
 	},
 };
 const cssLoaderModularConfig = {
@@ -67,7 +68,7 @@ const cssLoaderModularConfig = {
 	options: {
 		importLoaders: 1,
 		minimize: true,
-		// sourceMap: shouldUseSourceMap,
+		sourceMap: shouldUseSourceMap,
 		modules: true,
 		localIdentName: "[name]__[local]__[hash:base64:5]"
 	},
@@ -90,12 +91,13 @@ const postCssLoaderConfig = {
 				flexbox: 'no-2009',
 			}),
 		],
+		sourceMap: shouldUseSourceMap,
 	},
 };
 const scssloaderConfig = {
 	loader: 'sass-loader',
 	options: {
-		sourceMap: true
+		sourceMap: shouldUseSourceMap,
 	}
 };
 

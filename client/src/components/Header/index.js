@@ -1,10 +1,9 @@
 import React, {Component} from "react";
-import styles from "./styles.local.scss";
+import styles from "./header.local.scss";
 
 export default class Header extends Component {
 	constructor(props) {
 		super(props);
-		console.log("TEST: ", styles);
 	}
 
 	render() {
