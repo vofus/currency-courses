@@ -1,6 +1,6 @@
 import React from "react";
 import "typeface-roboto";
-import "./styles.css";
+import "./styles.scss";
 
 import Header from "../Header";
 

@@ -1,7 +1,4 @@
-/* http://meyerweb.com/eric/tools/css/reset/
-   v2.0 | 20110126
-   License: none (public domain)
-*/
+@import "~styles/colors";
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -56,4 +53,5 @@ table {
 body {
 	font-size: 14px;
 	font-family: Roboto, Arial, sans-serif;
+	color: $black;
 }
