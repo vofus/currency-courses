@@ -1,0 +1,19 @@
+.auth-form {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	margin: 0 auto;
+}
+
+.auth-form__title {
+	font-size: 24px;
+	font-weight: 500;
+	padding: 24px 0;
+}
+
+.auth-form > *:not(:first-child) {
+	margin-top: 32px;
+}
