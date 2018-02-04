@@ -1,4 +1,6 @@
 import React, {Component} from "react";
+import UserAvatar from "../UserAvatar";
+import Button from "../Button";
 import styles from "./header.local.scss";
 
 export default class Header extends Component {
@@ -11,8 +13,8 @@ export default class Header extends Component {
 			<header className={styles.header}>
 				<h2 className={styles.header__logo}>Currensy Courses</h2>
 				<div className={styles.header__user}>
-					<span>UserName</span>
-					<button>Logout</button>
+					<UserAvatar name={"Vofus"}/>
+					<Button title={"Logout"}/>
 				</div>
 			</header>
 		);
