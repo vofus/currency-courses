@@ -26,6 +26,7 @@ const App = () => {
 			<Route exact path="/" render={() => <Redirect to="/courses"/>}/>
 			<Route path="/courses" render={renderMainLayout}/>
 			<Route path="/login" component={AuthForm}/>
+			<Route render={() => <Redirect to="/"/>}/>
 		</div>
 	);
 };
