@@ -1,6 +1,7 @@
 import React, {Fragment} from "react";
 import PropTypes from "prop-types";
 import styles from "./tabs.local.scss";
+import {NavLink} from "react-router-dom";
 
 const renderTabItems = linkObjects => {
 	return (
@@ -8,8 +9,8 @@ const renderTabItems = linkObjects => {
 			{
 				linkObjects.map((item, index) => {
 					return (
-						<li className={`${styles["tabs-item"]} ${index === 0 ? styles["active"] : ""}`} key={index}>
-							<a href={item.link}>{item.title}</a>
+						<li className={styles["tabs-item"]} key={index}>
+							<NavLink exact to={item.link} activeClassName={styles.active}>{item.title}</NavLink>
 						</li>
 					);
 				})
