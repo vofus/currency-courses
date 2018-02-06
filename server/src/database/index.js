@@ -1,12 +1,10 @@
 const mongoose = require("mongoose");
 
 async function createConnection() {
-  const { DB_USER, DB_PASSWORD } = process.env;
+	const {DB_URL} = process.env;
 
   try {
-    const connection = await mongoose.connect(
-      `mongodb://${DB_USER}:${DB_PASSWORD}@ds121088.mlab.com:21088/currency_courses`
-    );
+		const connection = await mongoose.connect(DB_URL);
 
     return connection;
   } catch (e) {
