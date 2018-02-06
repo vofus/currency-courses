@@ -86,7 +86,7 @@ async function checkUser(userData) {
       return prepareUser(user);
     }
 
-		return null;
+		throw null;
   } catch (e) {
     global.console.error(e);
 		throw new Error("Неверный логин или пароль");

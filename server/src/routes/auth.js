@@ -13,9 +13,9 @@ router.post("/", async (req, res) => {
 			return res.send(token);
 		}
 
-		res.status(401).send();
+		return res.status(401).send();
 	} catch (e) {
-		res.status(400).send({code: 400, message: e.message});
+		return res.status(400).send({code: 400, message: e.message});
 	}
 });
 

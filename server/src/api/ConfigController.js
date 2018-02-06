@@ -53,7 +53,7 @@ async function getConfig(userId) {
 			return prepareConfig(config);
 		}
 
-		return null;
+		return await createConfig(userId, {favorites: []});
   } catch (e) {
     global.console.error(e);
     throw new Error("Конфигурация не найдена");

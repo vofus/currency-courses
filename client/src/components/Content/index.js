@@ -1,11 +1,18 @@
-import React from "react";
+import React, {Component} from "react";
+import PropTypes from "prop-types";
 import {Route, Switch} from "react-router-dom";
+import {connect} from "react-redux";
+import {configSelector} from "../../store/config";
 import styles from "./content.local.scss";
-
 import Tabs from "../Tabs";
 import Converter from "../Converter";
 import CurrensyCourses from "../CurrensyCourses";
 
+
+const mapStateToProps = (state) => ({
+	...configSelector(state)
+});
+const enhance = connect(mapStateToProps);
 
 const linkObjects = [
 	{
@@ -19,18 +26,24 @@ const linkObjects = [
 ];
 
 
-const Content = () => {
-	const [courses, converter] = linkObjects.map(item => item.link);
+class Content extends Component {
+	static propTypes = {
+		config: PropTypes.object
+	};
 
-	return (
-		<div className={styles.content}>
-			<Tabs linkObjects={linkObjects}/>
-			<Switch>
-				<Route exact path={courses} component={CurrensyCourses}/>
-				<Route path={converter} component={Converter}/>
-			</Switch>
-		</div>
-	);
-};
+	render() {
+		const [courses, converter] = linkObjects.map(item => item.link);
 
-export default Content;
+		return (
+			<div className={styles.content}>
+				<Tabs linkObjects={linkObjects}/>
+				<Switch>
+					<Route exact path={courses} render={() => <CurrensyCourses config={this.props.config}/>}/>
+					<Route path={converter} render={() => <Converter config={this.props.config}/>}/>
+				</Switch>
+			</div>
+		);
+	}
+}
+
+export default enhance(Content);

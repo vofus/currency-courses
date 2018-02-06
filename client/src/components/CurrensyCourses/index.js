@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import PropTypes from "prop-types";
 import CurrensyCoursesItem from "../CurrensyCoursesItem";
 
 
@@ -16,6 +17,10 @@ const renderCurrensy = currensy => {
 };
 
 export default class CurrensyCourses extends Component {
+	static propTypes = {
+		config: PropTypes.object
+	};
+
 	currensy = [
 		{
 			name: "RUB",
@@ -38,6 +43,8 @@ export default class CurrensyCourses extends Component {
 	];
 
 	render() {
+		console.log("CurrensyCourses", this.props);
+
 		return (
 			<div>
 				{renderCurrensy(this.currensy)}
