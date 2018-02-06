@@ -4,10 +4,6 @@ import Button from "../Button";
 import styles from "./header.local.scss";
 
 export default class Header extends Component {
-	constructor(props) {
-		super(props);
-	}
-
 	render() {
 		return (
 			<header className={styles.header}>

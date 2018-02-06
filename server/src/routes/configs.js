@@ -1,56 +1,66 @@
 const { createConfig, getConfig, updateConfig, removeConfig } = require("../api/ConfigController");
+const {authMiddleware, getPayload} = require("../api/AuthController");
 const router = require("express").Router();
 
-router.use(async (req, res, next) => {
-  if (req.session.user) {
-    return next();
-  }
-  const error = new Error("Unauthorized");
 
-  return res.status(401).send({ code: 401, message: error.message });
-});
+router.use(authMiddleware);
 
 router.post("/", async (req, res) => {
-  try {
-    const newConfig = await createConfig(req.body);
+	const {headers: {authorization: token}} = req;
 
-    res.send(newConfig);
+  try {
+		const payload = await getPayload(token);
+		const newConfig = await createConfig(payload.userId, req.body);
+
+		return res.send(newConfig);
   } catch (e) {
-    res.status(400).send({ code: 400, message: e.message });
+		return res.status(400).send({code: 400, message: e.message});
   }
 });
 
-router.get("/:id/:userId?", async (req, res) => {
-  const { params: { id }, query: { userId } } = req;
+router.get("/", async (req, res) => {
+	const {headers: {authorization: token}} = req;
+
   try {
-    const config = await getConfig({ id, userId });
-    res.send(config);
+		const payload = await getPayload(token);
+		const config = await getConfig(payload.userId);
+
+		return res.send(config);
   } catch (e) {
-    res.status(400).send({ code: 400, message: e.message });
+		return res.status(400).send({code: 400, message: e.message});
   }
 });
 
 router.put("/:id", async (req, res) => {
-  if (req.params.id !== req.body.id) {
-    res.status(400).send({ code: 403, message: "Неверный путь для обновления" });
-  }
+	const {params: {id}, headers: {authorization: token}} = req;
+
+	if (id !== req.body.id) {
+		return res.status(400).send({code: 400, message: "Неверный путь для обновления"});
+	}
+
   try {
-    const config = await updateConfig(req.body);
-    res.send(config);
+		const payload = await getPayload(token);
+		const config = await updateConfig(id, payload.userId, req.body);
+		return res.send(config);
   } catch (e) {
-    res.status(400).send({ code: 400, message: e.message });
+		return res.status(400).send({code: 400, message: e.message});
   }
 });
 
 router.delete("/:id", async (req, res) => {
-  const { params: { id } } = req;
-  const { user: { id: userId } } = req.session;
+	const {params: {id}, headers: {authorization: token}} = req;
 
   try {
-    await removeConfig({ id, userId });
-    res.status(200).send();
+		const payload = await getPayload(token);
+		const result = await removeConfig({id, userId: payload.userId});
+
+		if (!result) {
+			return res.status(404).send({code: 404, message: "Конфигурация не найдена"});
+		}
+
+		return res.status(200).send();
   } catch (e) {
-    res.status(400).send({ code: 400, message: e.message });
+		return res.status(400).send({code: 400, message: e.message});
   }
 });
 

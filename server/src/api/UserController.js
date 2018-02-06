@@ -17,6 +17,10 @@ function hash(text) {
  * @param {User} user
  */
 function prepareUser(user) {
+	if (!user) {
+		throw new Error("Ошибка при обработке данных пользователя");
+	}
+
   const { username, _id: id } = user;
 
   return {
@@ -55,9 +59,13 @@ async function createUser(userData) {
  */
 async function getUser(id) {
   try {
-    const user = await User.findOne(id);
+		const user = await User.findOne({_id: id});
 
-    return prepareUser(user);
+		if (user) {
+			return prepareUser(user);
+		}
+
+		return null;
   } catch (e) {
     global.console.error(e);
     throw new Error("Пользователь не найден");
@@ -71,18 +79,17 @@ async function getUser(id) {
  */
 async function checkUser(userData) {
   const { username, password } = userData;
-  const errMessage = "Неверный логин или пароль";
 
   try {
     const user = await User.findOne({ username });
-    if (user.password === hash(password)) {
+		if (user && user.password === hash(password)) {
       return prepareUser(user);
     }
 
-    throw new Error(errMessage);
+		return null;
   } catch (e) {
     global.console.error(e);
-    throw new Error(errMessage);
+		throw new Error("Неверный логин или пароль");
   }
 }
 

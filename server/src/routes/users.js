@@ -1,4 +1,5 @@
-const { checkUser, createUser } = require("../api/UserController");
+const {createUser, getUser} = require("../api/UserController");
+const {getPayload, authMiddleware} = require("../api/AuthController");
 const router = require("express").Router();
 
 /**
@@ -8,36 +9,35 @@ router.post("/", async (req, res) => {
   try {
     const newUser = await createUser(req.body);
 
-    req.session.user = { ...newUser };
     res.send(newUser);
   } catch (e) {
     res.status(400).send({ code: 400, message: e.message });
   }
 });
 
-/**
- * Login
- */
-router.post("/login", async (req, res) => {
-  try {
-    const user = await checkUser(req.body);
+router.use("/:id", authMiddleware);
+router.get("/:id", async (req, res) => {
+	const {authorization: token} = req.headers;
+	const {id: userId} = req.params;
 
-    req.session.user = { ...user };
-    res.send(user);
-  } catch (e) {
-    res.status(403).send({ code: 403, message: e.message });
-  }
+	try {
+		const payload = await getPayload(token);
+
+		if (!payload || payload.userId !== userId) {
+			return res.status(403).send({code: 403, message: "Попытка получить данные другого пользователя"});
+		}
+
+		const user = await getUser(userId);
+
+		if (!user) {
+			return res.status(404).send({code: 404, message: "Пользователь не найден"});
+		}
+
+		return res.status(200).send(user);
+	} catch (e) {
+		res.status(400).send({code: 400, message: e.message});
+	}
 });
 
-/**
- * Logout
- */
-router.post("/logout", (req, res) => {
-  if (req.session.user) {
-    delete req.session.user;
-  }
-
-  res.send();
-});
 
 module.exports = router;
