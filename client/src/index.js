@@ -1,23 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import createBrowserHistory from "history/createBrowserHistory";
-import {createStore} from "redux";
+import {ConnectedRouter} from "react-router-redux";
 import {Provider} from "react-redux";
-import {Router} from "react-router-dom";
+import configStore, {history} from "./config/configStore";
 
 import App from "./components/App";
 
-const reducer = state => state;
 const initialState = {};
-
-const store = createStore(reducer, initialState);
-const customHistory = createBrowserHistory();
+const store = configStore(initialState);
 
 ReactDOM.render(
 	<Provider store={store}>
-		<Router history={customHistory}>
+		<ConnectedRouter history={history}>
 			<App/>
-		</Router>
+		</ConnectedRouter>
 	</Provider>,
 	document.getElementById("root")
 );

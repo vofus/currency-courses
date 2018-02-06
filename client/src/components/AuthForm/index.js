@@ -1,9 +1,15 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import {asyncActionAuthLogin} from "../../store/auth";
 import Button from "../Button";
 import Input from "../Input";
 import styles from "./auth-form.local.scss";
 
+const enhance = connect(
+	() => ({}),
+	{login: asyncActionAuthLogin}
+);
 
 class AuthForm extends Component {
 	static propTypes = {
@@ -50,4 +56,4 @@ class AuthForm extends Component {
 	}
 }
 
-export default AuthForm;
+export default enhance(AuthForm);

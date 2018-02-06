@@ -19,12 +19,14 @@ function prepareConfig(config) {
 
 /**
  * Создаем объект конфигурации
+ * @param {String} userId
  * @param {Object} configData
  */
-async function createConfig(configData) {
+async function createConfig(userId, configData) {
   try {
     const params = {
       ...configData,
+			userId,
       baseCurrensy: configData.baseCurrensy || DEFAULT_BASE_CURRENSY
     };
     const config = await new Config(params).save();
@@ -41,15 +43,17 @@ async function createConfig(configData) {
 
 /**
  * Запрашиваем конфигурацию
- * @param {Object: {id?: String, userId?: String}} params
+ * @param userId {String}
  */
-async function getConfig(params) {
-  const { id, userId } = params;
-
+async function getConfig(userId) {
   try {
-    const config = await Config.findOne({ _id: id, userId });
+		const config = await Config.findOne({userId});
 
-    return prepareConfig(config);
+		if (config) {
+			return prepareConfig(config);
+		}
+
+		return null;
   } catch (e) {
     global.console.error(e);
     throw new Error("Конфигурация не найдена");
@@ -58,15 +62,21 @@ async function getConfig(params) {
 
 /**
  * Обновляем данные о конфигурации
- * @param {Object} configData
+ * @param id
+ * @param userId
+ * @param configData
+ * @returns {Promise<*>}
  */
-async function updateConfig(configData) {
-  const { id, userId } = configData;
-
+async function updateConfig(id, userId, configData) {
   try {
-    const config = await Config.findOneAndUpdate({ _id: id, userId }, configData);
+		const resultPut = await Config.findOneAndUpdate({_id: id, userId}, configData);
+		const resultGet = await Config.findOne({_id: id, userId});
 
-    return prepareConfig(config);
+		if (resultPut && resultGet) {
+			return prepareConfig(resultGet);
+		}
+
+		return null;
   } catch (e) {
     global.console.error(e);
     throw new Error("Ошибка при обновлении конфигурации");
@@ -81,9 +91,7 @@ async function removeConfig(params) {
   const { id, userId } = params;
 
   try {
-    await Config.findOneAndRemove({ _id: id, userId });
-
-    return true;
+		return await Config.findOneAndRemove({_id: id, userId});
   } catch (e) {
     global.console.error(e);
     throw new Error("Ошибка при удалении конфигурации");

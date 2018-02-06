@@ -14,7 +14,7 @@ const USERS_URL = "/users";
  * @returns {Promise<{data: *}>}
  */
 export function authUser(username, password) {
-	return api.post("/auth", {username, password}).then(({data}) => data);
+	return api.post("/users/login", {username, password}).then(({data}) => data);
 }
 
 
