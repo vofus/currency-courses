@@ -10,28 +10,9 @@ const AUTH_LOGOUT = "currensyCourses/auth/AUTH_LOGOUT";
 
 
 // ACTION CREATORS
-export const authLoginAction = (userId, accessToken) => ({
-	type: AUTH_LOGIN,
-	payload: {userId, accessToken}
-});
+export const authLoginAction = (userId, accessToken) => ({type: AUTH_LOGIN, payload: {userId, accessToken}});
 export const authLogoutAction = () => ({type: AUTH_LOGOUT});
 
-
-// ASYNC ACTIONS
-export const asyncActionAuthLogin = (username, password) => async (dispatch, getState, api) => {
-	try {
-		const {userId, accessToken} = await api.authUser(username, password);
-		const user = await api.getUser(userId, accessToken);
-		const config = await api.getConfig(accessToken);
-		dispatch(authLoginAction(userId, accessToken));
-		dispatch(userSetAction(user));
-		dispatch(updateConfigAction(config));
-		dispatch(push("/courses"));
-	} catch (e) {
-		const message = e.message ? e.message : "Username or password is incorrect";
-		dispatch(asyncActionErrorShow(message, e));
-	}
-};
 
 export const asyncActionAuthLogout = () => async (dispatch, getState, api) => {
 	const {auth} = getState();
