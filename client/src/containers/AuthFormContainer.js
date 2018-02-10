@@ -4,12 +4,14 @@ import {connect} from "react-redux";
 import {push} from "react-router-redux";
 import AuthForm from "../components/AuthForm";
 
-import {authUser} from "../api";
+import {authUser, createUser} from "../api";
 import {saveToken} from "../localStorageUtils";
+import {locationSelector} from "../store/router";
 import {authLoginAction, authSelector} from "../store/auth";
 import {asyncActionErrorShow} from "../store/error";
 
 const mapStateToProps = (state) => ({
+	...locationSelector(state),
 	...authSelector(state)
 });
 
@@ -24,6 +26,7 @@ const enhance = connect(mapStateToProps, mapDispatchToProps);
 
 class AuthFormContainer extends Component {
 	static propTypes = {
+		location: PropTypes.object,
 		auth: PropTypes.object,
 		loginAction: PropTypes.func,
 		errorAction: PropTypes.func,
@@ -66,6 +69,24 @@ class AuthFormContainer extends Component {
 
 
 	/**
+	 * Создаем нового пользователя
+	 * @returns {Promise<void>}
+	 */
+	regs = async () => {
+		const {username, password} = this.state;
+		const {errorAction} = this.props;
+
+		try {
+			await createUser(username, password);
+			await this.auth();
+		} catch (e) {
+			const message = e.message ? e.message : "Create user error";
+			errorAction(message, e);
+		}
+	};
+
+
+	/**
 	 * Render
 	 * @returns {*}
 	 */
@@ -76,6 +97,7 @@ class AuthFormContainer extends Component {
 								setUsername={this.setUsername}
 								setPassword={this.setPassword}
 								login={this.auth}
+								regs={this.regs}
 			/>
 		);
 	}

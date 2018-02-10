@@ -5,7 +5,7 @@ import Input from "../Input";
 import styles from "./auth-form.local.scss";
 
 
-const AuthForm = ({username, password, setUsername, setPassword, login}) => {
+const AuthForm = ({username, password, setUsername, setPassword, login, regs}) => {
 	return (
 		<div className={styles["auth-form"]}>
 			<h2 className={styles["auth-form__title"]}>
@@ -24,7 +24,10 @@ const AuthForm = ({username, password, setUsername, setPassword, login}) => {
 				value={password}
 				onChange={setPassword}
 			/>
-			<Button title="Login" onAction={login}/>
+			<div className={styles["auth-form__controls"]}>
+				<Button title="Login" onAction={login}/>
+				<Button title="Registration" onAction={regs}/>
+			</div>
 		</div>
 	);
 };
@@ -34,7 +37,8 @@ AuthForm.propTypes = {
 	password: PropTypes.string,
 	setUsername: PropTypes.func,
 	setPassword: PropTypes.func,
-	login: PropTypes.func
+	login: PropTypes.func,
+	regs: PropTypes.func
 };
 
 export default AuthForm;

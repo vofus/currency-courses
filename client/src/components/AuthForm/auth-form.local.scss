@@ -14,6 +14,11 @@
 	padding: 24px 0;
 }
 
+.auth-form__controls {
+	display: flex;
+	align-items: center;
+}
+
 .auth-form > *:not(:first-child) {
 	margin-top: 32px;
 }
