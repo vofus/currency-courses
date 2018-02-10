@@ -2,8 +2,8 @@ const DELAY = 4000;
 const delay = (delayTime) => new Promise(resolve => setTimeout(resolve, delayTime));
 
 
-const ERROR_SHOW = "currensyCourses/error/ERROR_SHOW";
-const ERROR_HIDE = "currensyCourses/error/ERROR_HIDE";
+const ERROR_SHOW = "CurrencyCourses/error/ERROR_SHOW";
+const ERROR_HIDE = "CurrencyCourses/error/ERROR_HIDE";
 
 const actionErrorShow = (message) => ({type: ERROR_SHOW, payload: message});
 const actionErrorHide = () => ({type: ERROR_HIDE});

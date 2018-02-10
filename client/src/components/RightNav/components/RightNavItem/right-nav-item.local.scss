@@ -1,11 +1,11 @@
-.right-nav-item-container {
+.right-nav-item {
 	display: flex;
 	flex-direction: column;
 	align-items: stretch;
 	margin-top: 32px;
 }
 
-.right-nav-item-container__title {
+.right-nav-item__title {
 	display: flex;
 	align-items: center;
 	height: 20px;

@@ -1,6 +1,6 @@
 @import "~styles/colors";
 
-.currensy-courses-item {
+.currency-courses-item {
 	box-sizing: border-box;
 	display: flex;
 	align-items: center;
@@ -15,14 +15,14 @@
 	&:hover {
 		background-color: $light-bg;
 
-		.currensy-courses-item__star-wrapper:not(.active) {
+		.currency-courses-item__star-wrapper:not(.active) {
 			visibility: visible;
 			opacity: 0.5;
 		}
 	}
 }
 
-.currensy-courses-item__star-wrapper {
+.currency-courses-item__star-wrapper {
 	visibility: hidden;
 
 	&.active {
@@ -30,7 +30,7 @@
 	}
 }
 
-.currensy-courses-item__name,
-.currensy-courses-item__rate {
+.currency-courses-item__name,
+.currency-courses-item__rate {
 	margin: 0 32px;
 }
