@@ -1,15 +1,16 @@
-const KEY = "CurrensyCoursesAuthToken";
+const KEY = "CurrencyCoursesAuthToken";
 
 
 /**
  * Сохраняем токен
  * @param userId
- * @param token
+ * @param accessToken
  * @returns {Promise<void>}
  */
-export const saveToken = async (userId, token) => {
+export const saveToken = async (userId, accessToken) => {
 	try {
-		await new Promise(resolve => setTimeout(() => resolve(localStorage.setItem(`${KEY}__${userId}`, token)), 0));
+		const dataStr = JSON.stringify({userId, accessToken});
+		await new Promise(resolve => setTimeout(() => resolve(localStorage.setItem(KEY, dataStr)), 0));
 	} catch (e) {
 		throw new Error("Ошибка при сохранении токена");
 	}
@@ -18,12 +19,13 @@ export const saveToken = async (userId, token) => {
 
 /**
  * Извлекаем токен
- * @param userId
  * @returns {Promise<String>}
  */
-export const getToken = async (userId) => {
+export const getToken = async () => {
 	try {
-		return await new Promise(resolve => setTimeout(() => resolve(localStorage.getItem(`${KEY}__${userId}`)), 0));
+		const rawData = await new Promise(resolve => setTimeout(() => resolve(localStorage.getItem(KEY)), 0));
+
+		return JSON.parse(rawData);
 	} catch (e) {
 		throw new Error("Ошибка при извлечении токена");
 	}
@@ -32,12 +34,11 @@ export const getToken = async (userId) => {
 
 /**
  * Удаляем токен
- * @param userId
  * @returns {Promise<String>}
  */
-export const removeToken = async (userId) => {
+export const removeToken = async () => {
 	try {
-		return await new Promise(resolve => setTimeout(() => resolve(localStorage.removeItem(`${KEY}__${userId}`)), 0));
+		return await new Promise(resolve => setTimeout(() => resolve(localStorage.removeItem(KEY)), 0));
 	} catch (e) {
 		throw new Error("Ошибка при удалении токена");
 	}

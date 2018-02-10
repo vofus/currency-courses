@@ -1,7 +1,7 @@
 {
-  "name": "currensy_courses",
+  "name": "currency_courses",
   "version": "1.0.0",
-  "description": "Currensy Courses",
+  "description": "Currency Courses",
   "scripts": {
     "init:server": "cd server && npm i",
     "init:client": "cd client && yarn",

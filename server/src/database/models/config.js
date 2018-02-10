@@ -6,18 +6,14 @@ const Config = new mongoose.Schema({
     unique: true,
     required: [true, "userIdRequired"]
   },
-  baseCurrensy: {
+	baseCurrency: {
     type: String,
-    required: [true, "baseCurrensyRequired"]
+		required: [true, "baseCurrencyRequired"]
   },
   favorites: [
     {
       name: {
         type: String,
-        required: true
-      },
-      order: {
-        type: Number,
         required: true
       }
     }

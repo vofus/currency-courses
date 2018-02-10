@@ -1,4 +1,4 @@
-Currensy-Courses
+Currency-Courses
 ================
 
 ### Для запуска проекта необходимо:

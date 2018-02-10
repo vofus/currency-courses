@@ -28,44 +28,6 @@ $aside-width: 320px;
 	border-bottom: 1px solid $blue-grey;
 }
 
-.right-nav__header-close-btn {
-	position: relative;
-	width: 24px;
-	height: 24px;
-	border-radius: 50%;
-	border: none;
-	outline: none;
-	background-color: transparent;
-	//box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
-
-	&:not(:disabled):hover {
-		cursor: pointer;
-		opacity: 0.85;
-		//background-color: transparentize($light-bg, 0.25);
-	}
-
-	&::before,
-	&::after {
-		content: "";
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		display: block;
-		width: 2px;
-		height: 20px;
-		border-radius: 2px;
-		background-color: $blue-grey;
-	}
-
-	&::before {
-		transform: translate(-50%, -50%) rotate(-45deg);
-	}
-
-	&::after {
-		transform: translate(-50%, -50%) rotate(45deg);
-	}
-}
-
 .right-nav__header-title {
 	font-size: 16px;
 	text-transform: uppercase;

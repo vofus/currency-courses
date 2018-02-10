@@ -9,7 +9,7 @@ const AuthForm = ({username, password, setUsername, setPassword, login}) => {
 	return (
 		<div className={styles["auth-form"]}>
 			<h2 className={styles["auth-form__title"]}>
-				Wellcome to currensy courses
+				Wellcome to currency courses app
 			</h2>
 
 			<Input

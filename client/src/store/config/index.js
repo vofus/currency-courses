@@ -1,25 +1,25 @@
 // CONSTANTS
-const UPDATE_CONFIG = "CurrensyCourses/config/UPDATE_CONFIG";
-const REMOVE_CONFIG = "CurrensyCourses/config/REMOVE_CONFIG";
+const CONFIG_SET = "CurrencyCourses/config/CONFIG_SET";
+const CONFIG_UNSET = "CurrencyCourses/config/CONFIG_UNSET";
 
 // ACTION CREATORS
-export const updateConfigAction = (config) => {
+export const configSetAction = (config) => {
 	return {
-		type: UPDATE_CONFIG,
+		type: CONFIG_SET,
 		payload: config
 	};
 };
-export const removeConfigAction = () => ({type: REMOVE_CONFIG});
+export const configUnsetAction = () => ({type: CONFIG_UNSET});
 
 
 // REDUCER
-const initialState = {id: "", userId: "", baseCurrensy: "", favorites: []};
+const initialState = {id: "", userId: "", baseCurrency: "", favorites: []};
 export const configReducer = (state = initialState, action = {}) => {
 	const {type, payload} = action;
 	switch (type) {
-		case UPDATE_CONFIG:
-			return payload || initialState;
-		case REMOVE_CONFIG:
+		case CONFIG_SET:
+			return payload ? {...state, ...payload} : initialState;
+		case CONFIG_UNSET:
 			return initialState;
 		default:
 			return state;

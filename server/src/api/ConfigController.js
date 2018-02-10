@@ -1,18 +1,18 @@
 const { Config } = require("../database/models");
 
-const { DEFAULT_BASE_CURRENSY } = process.env;
+const {DEFAULT_BASE_CURRENCY} = process.env;
 
 /**
  * Обрабатываем конфиг
  * @param {Config} config
  */
 function prepareConfig(config) {
-  const { _id: id, userId, baseCurrensy, favorites } = config;
+	const {_id: id, userId, baseCurrency, favorites} = config;
 
   return {
     id,
     userId,
-    baseCurrensy,
+		baseCurrency,
     favorites: favorites || []
   };
 }
@@ -27,7 +27,7 @@ async function createConfig(userId, configData) {
     const params = {
       ...configData,
 			userId,
-      baseCurrensy: configData.baseCurrensy || DEFAULT_BASE_CURRENSY
+			baseCurrency: configData.baseCurrency || DEFAULT_BASE_CURRENCY
     };
     const config = await new Config(params).save();
 

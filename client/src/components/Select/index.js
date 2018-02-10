@@ -85,7 +85,7 @@ class Select extends Component {
 					}}
 					style={this.state.itemContainerBox}
 				>
-					<ul className={styles["select-items-list"]}>
+					<ul>
 						{this.props.items.map((item, index) => (
 							<li className={`${styles["select-list-item"]} ${this.isActive(item) ? styles["active"] : ""}`}
 									key={index}

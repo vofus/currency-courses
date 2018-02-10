@@ -114,6 +114,26 @@ export async function getConfig(token) {
 
 
 /**
+ * Обновляем конфигурацию
+ * @param config
+ * @param token
+ * @returns {Promise<null>}
+ */
+export async function updateConfig(config, token) {
+	const headers = {"Authorization": token};
+	const {id} = config;
+
+	try {
+		const res = await api.put(`${CONFIGS_URL}/${id}`, config, {headers});
+
+		return res ? res.data : null;
+	} catch (e) {
+		prepareError(e);
+	}
+}
+
+
+/**
  * Запрашиваем курсы относительно базовой валюты
  * @param base
  * @returns {Promise<void>}

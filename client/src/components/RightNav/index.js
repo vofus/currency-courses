@@ -1,49 +1,50 @@
-import React, {Component} from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import styles from "./right-nav.local.scss";
 
+import _noop from "lodash/fp/noop";
+
 import Select from "../Select";
-import RightNavItemContainer from "./components/RightNavItemContainer";
+import IconButton from "../IconButton";
+import CloseIcon from "../Icons/CloseIcon";
+import RightNavItemContainer from "./components/RightNavItem";
 
-class RightNav extends Component {
-	static defaultProps = {
-		title: "Menu"
-	};
 
-	state = {
-		baseCurrensy: "RUB"
-	};
-
-	currensyList = [
-		"AUD", "BGN", "BRL", "CAD", "CHF", "CNY", "CZK", "DKK", "GBP", "HKD", "HRK", "HUF", "IDR", "ILS", "INR", "ISK",
-		"JPY", "KRW", "MXN", "MYR", "NOK", "NZD", "PHP", "PLN", "RON", "RUB", "SEK", "SGD", "THB", "TRY", "USD", "ZAR"
-	];
-
-	testCallBack = item => {
-		this.setState({
-			baseCurrensy: item
-		});
-	};
-
-	render() {
-		return (
-			<aside className={`${styles["right-nav"]} ${styles["right-nav--close"]}`}>
-				<div className={styles["right-nav__header"]}>
-					<button className={styles["right-nav__header-close-btn"]} title="Close menu"></button>
-					<span className={styles["right-nav__header-title"]}>{this.props.title}</span>
-				</div>
-				<div className={styles["right-nav__content"]}>
-					<RightNavItemContainer title="Base currensy">
-						<Select items={this.currensyList} onChange={this.testCallBack} value={this.state.baseCurrensy}/>
-					</RightNavItemContainer>
-				</div>
-			</aside>
-		);
-	}
-}
+const RightNav = ({isOpen, title, currencyList, baseCurrency, changeBaseCurrency, close}) => {
+	return (
+		<aside className={`${styles["right-nav"]} ${!isOpen ? styles["right-nav--close"] : ""}`}>
+			<div className={styles["right-nav__header"]}>
+				<IconButton title="Close menu" onAction={close}>
+					<CloseIcon style={{fill: "#333333"}}/>
+				</IconButton>
+				<span className={styles["right-nav__header-title"]}>{title}</span>
+			</div>
+			<div className={styles["right-nav__content"]}>
+				<RightNavItemContainer title="Base currency">
+					<Select items={currencyList} onChange={changeBaseCurrency} value={baseCurrency}/>
+				</RightNavItemContainer>
+			</div>
+		</aside>
+	);
+};
 
 RightNav.propTypes = {
-	title: PropTypes.string
+	isOpen: PropTypes.bool,
+	title: PropTypes.string,
+	currencyList: PropTypes.arrayOf(PropTypes.string),
+	baseCurrency: PropTypes.string,
+	changeBaseCurrency: PropTypes.func,
+	close: PropTypes.func
 };
+
+RightNav.defaultProps = {
+	isOpen: true,
+	title: "Menu",
+	currencyList: [],
+	baseCurrency: "Currency",
+	changeBaseCurrency: _noop,
+	close: _noop
+};
+
 
 export default RightNav;

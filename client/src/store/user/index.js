@@ -1,6 +1,6 @@
 // CONSTANTS
-const USER_SET = "CurrensyCourses/user/USER_SET";
-const USER_UNSET = "CurrensyCourses/user/USER_UNSET";
+const USER_SET = "CurrencyCourses/user/USER_SET";
+const USER_UNSET = "CurrencyCourses/user/USER_UNSET";
 
 
 // ACTION CREATORS
