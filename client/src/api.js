@@ -16,8 +16,8 @@ const CONFIGS_URL = "/configs";
  * @param e
  */
 function prepareError(e) {
-	if (e.response && e.response.data && e.response.data.message) {
-		throw new Error(e.response.data.message);
+	if (e.response && e.response.data && e.response.data.message && e.response.data.code) {
+		throw e.response.data;
 	}
 
 	throw e;

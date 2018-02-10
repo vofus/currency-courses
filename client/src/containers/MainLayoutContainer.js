@@ -9,6 +9,7 @@ import _sortBy from "lodash/fp/sortBy";
 
 import {getConfig, getRates, getUser, logout, updateConfig} from "../api";
 import {getToken, removeToken} from "../localStorageUtils";
+import {locationSelector} from "../store/router";
 import {authLoginAction, authLogoutAction, authSelector} from "../store/auth";
 import {userSelector, userSetAction, userUnsetAction} from "../store/user";
 import {configSelector, configSetAction, configUnsetAction} from "../store/config";
@@ -17,6 +18,7 @@ import {asyncActionErrorShow} from "../store/error";
 
 
 const mapStateToProps = (state) => ({
+	...locationSelector(state),
 	...authSelector(state),
 	...userSelector(state),
 	...configSelector(state),
@@ -41,6 +43,7 @@ const enhance = connect(mapStateToProps, mapDispatchToProps);
 
 class MainLayoutContainer extends Component {
 	static propTypes = {
+		location: PropTypes.object,
 		auth: PropTypes.object,
 		user: PropTypes.object,
 		config: PropTypes.object,
@@ -105,8 +108,12 @@ class MainLayoutContainer extends Component {
 			configSetAction(config);
 			commonSetAction({rates, currencyList});
 		} catch (e) {
-			const message = e.message ? e.message : "Username or password is incorrect";
+			const message = e.message ? e.message : "Load user data error";
 			errorAction(message, e);
+
+			if (e.code && e.code === 401) {
+				pushAction("/login");
+			}
 		}
 	};
 
@@ -137,7 +144,7 @@ class MainLayoutContainer extends Component {
 	 * @param currency
 	 */
 	changeBaseCurrency = async (currency) => {
-		const {auth, config, configSetAction, commonSetAction, errorAction} = this.props;
+		const {auth, config, configSetAction, commonSetAction, errorAction, pushAction} = this.props;
 
 		try {
 			const updatedConfig = await updateConfig({...config, baseCurrency: currency}, auth.accessToken);
@@ -146,8 +153,12 @@ class MainLayoutContainer extends Component {
 			configSetAction(updatedConfig);
 			commonSetAction({rates});
 		} catch (e) {
-			const message = e.message ? e.message : "Username or password is incorrect";
+			const message = e.message ? e.message : "Change base currency error";
 			errorAction(message, e);
+
+			if (e.code && e.code === 401) {
+				pushAction("/login");
+			}
 		}
 	};
 
@@ -176,7 +187,7 @@ class MainLayoutContainer extends Component {
 			commonUnsetAction();
 			pushAction("/login");
 		} catch (e) {
-			const message = e.message ? e.message : "Username or password is incorrect";
+			const message = e.message ? e.message : "Logout error";
 			errorAction(message, e);
 		}
 	};

@@ -12,7 +12,7 @@ import CurrencyCourses from "../CurrencyCourses";
 
 import _filter from "lodash/fp/filter";
 
-
+import {push} from "react-router-redux";
 import {updateConfig} from "../../api";
 import {locationSelector} from "../../store/router";
 import {authSelector} from "../../store/auth";
@@ -29,7 +29,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
 	configSetAction,
 	commonSetAction,
-	errorAction: asyncActionErrorShow
+	errorAction: asyncActionErrorShow,
+	pushAction: push
 };
 const enhance = connect(mapStateToProps, mapDispatchToProps);
 
@@ -53,7 +54,8 @@ class Content extends Component {
 		common: PropTypes.object,
 		configSetAction: PropTypes.func,
 		commonSetAction: PropTypes.func,
-		errorAction: PropTypes.func
+		errorAction: PropTypes.func,
+		pushAction: PropTypes.func
 	};
 
 
@@ -64,7 +66,7 @@ class Content extends Component {
 	 */
 	changeFavorites = async (item) => {
 		const {name, isFavorite} = item;
-		const {config: {favorites}, auth: {accessToken}, configSetAction, errorAction} = this.props;
+		const {config: {favorites}, auth: {accessToken}, configSetAction, errorAction, pushAction} = this.props;
 
 		try {
 			let rawFavorites = [];
@@ -80,6 +82,10 @@ class Content extends Component {
 		} catch (e) {
 			const message = e.message ? e.message : "Update favorite error";
 			errorAction(message, e);
+
+			if (e.code && e.code === 401) {
+				pushAction("/login");
+			}
 		}
 	};
 
