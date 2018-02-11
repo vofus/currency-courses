@@ -4,11 +4,15 @@ $aside-width: 320px;
 
 .right-nav {
 	box-sizing: border-box;
+	position: absolute;
+	top: 0;
+	right: 0;
 	display: flex;
 	flex-direction: column;
 	width: $aside-width;
+	height: 100%;
 	background-color: $light-bg;
-	transition: margin-right 0.175s linear;
+	transition: all 0.175s linear;
 
 	* {
 		box-sizing: border-box;
@@ -16,14 +20,14 @@ $aside-width: 320px;
 }
 
 .right-nav--close {
-	margin-right: -$aside-width;
+	right: -$aside-width;
 }
 
 .right-nav__header {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	height: 40px;
+	height: 41px;
 	padding: 8px 16px;
 	border-bottom: 1px solid $blue-grey;
 }

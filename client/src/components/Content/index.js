@@ -108,7 +108,7 @@ class Content extends Component {
 		const {common: {rightNavIsOpen}} = this.props;
 
 		return (
-			<div className={styles.content}>
+			<div className={`${styles.content} ${rightNavIsOpen ? styles.active : ""}`}>
 				<Tabs linkObjects={linkObjects}/>
 
 				<div className={`${styles["menu-button__wrapper"]} ${rightNavIsOpen ? styles.hidden : ""}`}>

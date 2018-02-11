@@ -13,7 +13,7 @@ export const commonUnsetAction = () => ({type: COMMON_UNSET});
 
 
 // REDUCER
-const initialState = {rightNavIsOpen: true, currencyList: [], rates: {}};
+const initialState = {rightNavIsOpen: false, currencyList: [], rates: {}};
 export const commonReducer = (state = initialState, action = {}) => {
 	const {type, payload} = action;
 	switch (type) {
