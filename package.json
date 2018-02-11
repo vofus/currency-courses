@@ -4,12 +4,12 @@
   "description": "Currency Courses",
   "scripts": {
     "init:server": "cd server && npm i",
-    "init:client": "cd client && yarn",
+    "init:client": "cd client && npm i",
     "init": "npm run init:server && npm run init:client",
     "start:server": "cd server && npm start",
-    "build:client": "cd client && yarn build",
-    "start": "npm run build:client && npm run start:server",
-    "dev": "cd server && npm run dev & cd client && yarn start"
+    "build:client": "cd client && npm run build",
+    "start": "npm run init && npm run build:client && npm run start:server",
+    "dev": "cd server && npm run dev & cd client && npm start"
   },
   "keywords": [],
   "author": "Vofus",

@@ -1,18 +1,19 @@
+require("dotenv").config();
 const { Config } = require("../database/models");
 
-const {DEFAULT_BASE_CURRENCY} = process.env;
+const { DEFAULT_BASE_CURRENCY } = process.env;
 
 /**
  * Обрабатываем конфиг
  * @param {Config} config
  */
 function prepareConfig(config) {
-	const {_id: id, userId, baseCurrency, favorites} = config;
+  const { _id: id, userId, baseCurrency, favorites } = config;
 
   return {
     id,
     userId,
-		baseCurrency,
+    baseCurrency,
     favorites: favorites || []
   };
 }
@@ -26,8 +27,8 @@ async function createConfig(userId, configData) {
   try {
     const params = {
       ...configData,
-			userId,
-			baseCurrency: configData.baseCurrency || DEFAULT_BASE_CURRENCY
+      userId,
+      baseCurrency: configData.baseCurrency || DEFAULT_BASE_CURRENCY
     };
     const config = await new Config(params).save();
 
@@ -47,13 +48,13 @@ async function createConfig(userId, configData) {
  */
 async function getConfig(userId) {
   try {
-		const config = await Config.findOne({userId});
+    const config = await Config.findOne({ userId });
 
-		if (config) {
-			return prepareConfig(config);
-		}
+    if (config) {
+      return prepareConfig(config);
+    }
 
-		return await createConfig(userId, {favorites: []});
+    return await createConfig(userId, { favorites: [] });
   } catch (e) {
     global.console.error(e);
     throw new Error("Конфигурация не найдена");
@@ -69,14 +70,14 @@ async function getConfig(userId) {
  */
 async function updateConfig(id, userId, configData) {
   try {
-		const resultPut = await Config.findOneAndUpdate({_id: id, userId}, configData);
-		const resultGet = await Config.findOne({_id: id, userId});
+    const resultPut = await Config.findOneAndUpdate({ _id: id, userId }, configData);
+    const resultGet = await Config.findOne({ _id: id, userId });
 
-		if (resultPut && resultGet) {
-			return prepareConfig(resultGet);
-		}
+    if (resultPut && resultGet) {
+      return prepareConfig(resultGet);
+    }
 
-		return null;
+    return null;
   } catch (e) {
     global.console.error(e);
     throw new Error("Ошибка при обновлении конфигурации");
@@ -91,7 +92,7 @@ async function removeConfig(params) {
   const { id, userId } = params;
 
   try {
-		return await Config.findOneAndRemove({_id: id, userId});
+    return await Config.findOneAndRemove({ _id: id, userId });
   } catch (e) {
     global.console.error(e);
     throw new Error("Ошибка при удалении конфигурации");

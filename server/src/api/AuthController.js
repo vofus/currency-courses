@@ -1,6 +1,7 @@
+require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const bluebird = require("bluebird");
-const {Token} = require("../database/models");
+const { Token } = require("../database/models");
 
 
 bluebird.promisifyAll(jwt);
@@ -28,7 +29,8 @@ function prepareToken(token) {
  * @returns {Promise<{accessToken: {String}}>}
  */
 async function generateToken(user) {
-	const newAccessToken = jwt.sign({userId: user.id}, SECRET_KEY, {expiresIn: "1d"});
+	global.console.log("SECRET_KEY: ", SECRET_KEY);
+	const newAccessToken = jwt.sign({ userId: user.id }, SECRET_KEY, { expiresIn: "1d" });
 	const params = {
 		accessToken: newAccessToken,
 		userId: user.id,
@@ -36,10 +38,10 @@ async function generateToken(user) {
 	};
 
 	try {
-		await Token.findOneAndRemove({userId: user.id});
-		const {accessToken, userId} = await new Token(params).save();
+		await Token.findOneAndRemove({ userId: user.id });
+		const { accessToken, userId } = await new Token(params).save();
 
-		return {accessToken: `Vofus ${accessToken}`, userId};
+		return { accessToken: `Vofus ${accessToken}`, userId };
 	} catch (e) {
 		return null;
 	}
@@ -55,7 +57,7 @@ async function removeToken(token) {
 	const resToken = prepareToken(token);
 
 	try {
-		return await Token.findOneAndRemove({accessToken: resToken});
+		return await Token.findOneAndRemove({ accessToken: resToken });
 	} catch (e) {
 		global.console.error(e);
 		throw new Error("Ошибка при удалении токена");
@@ -89,7 +91,7 @@ async function isAuthorize(rawToken) {
 	const now = Math.floor(Date.now() / 1000);
 
 	try {
-		const result = await Token.findOne({accessToken: token});
+		const result = await Token.findOne({ accessToken: token });
 
 		if (result && result.expiresIn) {
 			return now <= result.expiresIn;
@@ -109,13 +111,13 @@ async function isAuthorize(rawToken) {
  * @returns {Promise<void>}
  */
 async function authMiddleware(req, res, next) {
-	const {authorization: token} = req.headers;
+	const { authorization: token } = req.headers;
 
 	try {
 		const isAuth = await isAuthorize(token);
 
 		if (!isAuth) {
-			return res.status(401).send({code: 401, message: "Срок авторизации истек"});
+			return res.status(401).send({ code: 401, message: "Срок авторизации истек" });
 		}
 
 		return next();
